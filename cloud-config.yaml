@@ -4,59 +4,30 @@ hostname: kube-m1
 coreos:
   units:
     - name: dhcp.network
+      runtime: true
       content: |
         [Match]
         Name=enp0s3
- 
-        [Network]
-        DHCP=yes  
 
-ssh_authorized_keys:
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCYOTu8S8/EH1OIcTkRd8JHlsDIOeh7sM9mJ2yCQB7WirwBHGe9lpDZoEEntJTOsbstaqVNBPX8PFCDVsaQwOO2K91ep2oXkszi/eDmIta8LyeEtX0lgtHc2DFWrYSolQY9zZDRg05Aak5KLKyD0WtZsjM9+aV5ds8lEkOa8rLgqd+lu2Maz3XTiffLQvXO86Tv2VL7y8DICan02RflmYaJ+XmMbSrVH6u+BJ5RAyuLbwf3anJHzFhCi3XjqJbuXK7BBkg7S5M/xTLyZh3p5iSpQRYpTWTmZU5bdCOIo7RUabVT2+04Afwr/oYyl/YZl6pU80qrc2kfZ/1i5y4Lta2BtiMUFjZOBe8xkCffyfO7FYhY/uMdj0tmyYkslUUoq6/ohoXPQCVRRn5jUP+b3ZZmn87AmRvzwfkvBLgKGZ0S4SN9ZlSFHGxzOQPTzdlpZ8xA2DByhMqZ51Mb3XLPGnY4MkhFNIJGGhat44CtREc5Mk8M24qKPIGIcIzpbBIcx4QNv006a+5lh3DNnHkxmWm5tHiUGk/h+1gQMi0QfKgq2bA4jgNnxtYck99hNo54z2Xv657eC8k4PjB+78W4fGs/IyBCYDBxQWr/EnroD/bOBeFBJDmmMfj78lGXiCXFPstxZNdkyy8GYPtR9Rz9ODK+K2D1/loraUYK9JnjzA8TCw== mvdokin@laptop-msi-gs60
+        [Network]
+        DHCP=yes
+    - name: static.network
+      runtime: true
+      content: |
+        [Match]
+        Name=enp0s8
+
+        [Network]
+        Address=10.10.10.10/24
+        DNS=10.10.10.10
 
 users:
   - name: devops
+    groups:
+      - sudo
+      - docker
+      - wheel
+    shell: /bin/bash
+    homedir: /home/devops
     ssh-authorized-keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCYOTu8S8/EH1OIcTkRd8JHlsDIOeh7sM9mJ2yCQB7WirwBHGe9lpDZoEEntJTOsbstaqVNBPX8PFCDVsaQwOO2K91ep2oXkszi/eDmIta8LyeEtX0lgtHc2DFWrYSolQY9zZDRg05Aak5KLKyD0WtZsjM9+aV5ds8lEkOa8rLgqd+lu2Maz3XTiffLQvXO86Tv2VL7y8DICan02RflmYaJ+XmMbSrVH6u+BJ5RAyuLbwf3anJHzFhCi3XjqJbuXK7BBkg7S5M/xTLyZh3p5iSpQRYpTWTmZU5bdCOIo7RUabVT2+04Afwr/oYyl/YZl6pU80qrc2kfZ/1i5y4Lta2BtiMUFjZOBe8xkCffyfO7FYhY/uMdj0tmyYkslUUoq6/ohoXPQCVRRn5jUP+b3ZZmn87AmRvzwfkvBLgKGZ0S4SN9ZlSFHGxzOQPTzdlpZ8xA2DByhMqZ51Mb3XLPGnY4MkhFNIJGGhat44CtREc5Mk8M24qKPIGIcIzpbBIcx4QNv006a+5lh3DNnHkxmWm5tHiUGk/h+1gQMi0QfKgq2bA4jgNnxtYck99hNo54z2Xv657eC8k4PjB+78W4fGs/IyBCYDBxQWr/EnroD/bOBeFBJDmmMfj78lGXiCXFPstxZNdkyy8GYPtR9Rz9ODK+K2D1/loraUYK9JnjzA8TCw== mvdokin@laptop-msi-gs60
-     sudo: ['ALL=(ALL) NOPASSWD:ALL']
-     shell: /bin/bash
-     groups: 
-       - sudo
-       - docker
-write_files:
-  - path: /etc/ssh/sshd_config
-    permission: 0600
-    owner: root:root
-    content: |
-      Port 22
-      Protocol 2
-      HostKey /etc/ssh/ssh_host_rsa_key
-      HostKey /etc/ssh/ssh_host_dsa_key
-      HostKey /etc/ssh/ssh_host_ecdsa_key
-      HostKey /etc/ssh/ssh_host_ed25519_key
-      UsePrivilegeSeparation yes
-      Subsystem sftp internal-sftp
-      UsePrivilegeSeparation yes
-      KeyRegenerationInterval 3600
-      ServerKeyBits 1024
-      SyslogFacility AUTH
-      LogLevel INFO
-      LoginGraceTime 120
-      PermitRootLogin no
-      StrictModes yes
-      RSAAuthentication yes
-      PubkeyAuthentication yes
-      IgnoreRhosts yes
-      RhostsRSAAuthentication no
-      HostbasedAuthentication no
-      PermitEmptyPasswords no
-      ChallengeResponseAuthentication no
-      X11Forwarding yes
-      X11DisplayOffset 10
-      PrintMotd no
-      PrintLastLog yes
-      TCPKeepAlive yes
-      AcceptEnv LANG LC_*
-      Subsystem sftp /usr/lib/openssh/sftp-server
-      UsePAM yes
-
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCYOTu8S8/EH1OIcTkRd8JHlsDIOeh7sM9mJ2yCQB7WirwBHGe9lpDZoEEntJTOsbstaqVNBPX8PFCDVsaQwOO2K91ep2oXkszi/eDmIta8LyeEtX0lgtHc2DFWrYSolQY9zZDRg05Aak5KLKyD0WtZsjM9+aV5ds8lEkOa8rLgqd+lu2Maz3XTiffLQvXO86Tv2VL7y8DICan02RflmYaJ+XmMbSrVH6u+BJ5RAyuLbwf3anJHzFhCi3XjqJbuXK7BBkg7S5M/xTLyZh3p5iSpQRYpTWTmZU5bdCOIo7RUabVT2+04Afwr/oYyl/YZl6pU80qrc2kfZ/1i5y4Lta2BtiMUFjZOBe8xkCffyfO7FYhY/uMdj0tmyYkslUUoq6/ohoXPQCVRRn5jUP+b3ZZmn87AmRvzwfkvBLgKGZ0S4SN9ZlSFHGxzOQPTzdlpZ8xA2DByhMqZ51Mb3XLPGnY4MkhFNIJGGhat44CtREc5Mk8M24qKPIGIcIzpbBIcx4QNv006a+5lh3DNnHkxmWm5tHiUGk/h+1gQMi0QfKgq2bA4jgNnxtYck99hNo54z2Xv657eC8k4PjB+78W4fGs/IyBCYDBxQWr/EnroD/bOBeFBJDmmMfj78lGXiCXFPstxZNdkyy8GYPtR9Rz9ODK+K2D1/loraUYK9JnjzA8TCw== mvdokin@laptop-msi-gs60"
