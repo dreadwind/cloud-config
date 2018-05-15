@@ -10,18 +10,15 @@ coreos:
  
         [Network]
         DHCP=yes  
-
-passwd:
-  users:
-    - name: devops
-      ssh_authorized_keys:
-        - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCYOTu8S8/EH1OIcTkRd8JHlsDIOeh7sM9mJ2yCQB7WirwBHGe9lpDZoEEntJTOsbstaqVNBPX8PFCDVsaQwOO2K91ep2oXkszi/eDmIta8LyeEtX0lgtHc2DFWrYSolQY9zZDRg05Aak5KLKyD0WtZsjM9+aV5ds8lEkOa8rLgqd+lu2Maz3XTiffLQvXO86Tv2VL7y8DICan02RflmYaJ+XmMbSrVH6u+BJ5RAyuLbwf3anJHzFhCi3XjqJbuXK7BBkg7S5M/xTLyZh3p5iSpQRYpTWTmZU5bdCOIo7RUabVT2+04Afwr/oYyl/YZl6pU80qrc2kfZ/1i5y4Lta2BtiMUFjZOBe8xkCffyfO7FYhY/uMdj0tmyYkslUUoq6/ohoXPQCVRRn5jUP+b3ZZmn87AmRvzwfkvBLgKGZ0S4SN9ZlSFHGxzOQPTzdlpZ8xA2DByhMqZ51Mb3XLPGnY4MkhFNIJGGhat44CtREc5Mk8M24qKPIGIcIzpbBIcx4QNv006a+5lh3DNnHkxmWm5tHiUGk/h+1gQMi0QfKgq2bA4jgNnxtYck99hNo54z2Xv657eC8k4PjB+78W4fGs/IyBCYDBxQWr/EnroD/bOBeFBJDmmMfj78lGXiCXFPstxZNdkyy8GYPtR9Rz9ODK+K2D1/loraUYK9JnjzA8TCw== mvdokin@laptop-msi-gs60"
+users:
+  - name: devops
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCYOTu8S8/EH1OIcTkRd8JHlsDIOeh7sM9mJ2yCQB7WirwBHGe9lpDZoEEntJTOsbstaqVNBPX8PFCDVsaQwOO2K91ep2oXkszi/eDmIta8LyeEtX0lgtHc2DFWrYSolQY9zZDRg05Aak5KLKyD0WtZsjM9+aV5ds8lEkOa8rLgqd+lu2Maz3XTiffLQvXO86Tv2VL7y8DICan02RflmYaJ+XmMbSrVH6u+BJ5RAyuLbwf3anJHzFhCi3XjqJbuXK7BBkg7S5M/xTLyZh3p5iSpQRYpTWTmZU5bdCOIo7RUabVT2+04Afwr/oYyl/YZl6pU80qrc2kfZ/1i5y4Lta2BtiMUFjZOBe8xkCffyfO7FYhY/uMdj0tmyYkslUUoq6/ohoXPQCVRRn5jUP+b3ZZmn87AmRvzwfkvBLgKGZ0S4SN9ZlSFHGxzOQPTzdlpZ8xA2DByhMqZ51Mb3XLPGnY4MkhFNIJGGhat44CtREc5Mk8M24qKPIGIcIzpbBIcx4QNv006a+5lh3DNnHkxmWm5tHiUGk/h+1gQMi0QfKgq2bA4jgNnxtYck99hNo54z2Xv657eC8k4PjB+78W4fGs/IyBCYDBxQWr/EnroD/bOBeFBJDmmMfj78lGXiCXFPstxZNdkyy8GYPtR9Rz9ODK+K2D1/loraUYK9JnjzA8TCw== mvdokin@laptop-msi-gs60
      sudo: ['ALL=(ALL) NOPASSWD:ALL']
      shell: /bin/bash
      groups: 
        - sudo
        - docker
-
 write_files:
   - path: /etc/ssh/sshd_config
     permission: 0600
