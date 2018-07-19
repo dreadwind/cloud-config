@@ -1,5 +1,5 @@
 #cloud-config
-hostname: kube-m1
+hostname: docker-w1
 
 coreos:
   units:
@@ -13,13 +13,23 @@ coreos:
         DHCP=yes
     - name: static.network
       runtime: true
-      content: |
-        [Match]
-        Name=enp0s8
+      
+packages:
+- libtool 
+- git
+- htop 
+- vim 
+- nano
+- lsof
+- sysstat
+- wget
+- telnet
+- tcpdump
+- net-tools
+- bind-utils
 
-        [Network]
-        Address=10.10.10.10/24
-        DNS=10.10.10.10
+package_update: true
+
 
 users:
   - name: devops
